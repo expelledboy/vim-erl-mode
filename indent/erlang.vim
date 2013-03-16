@@ -1,5 +1,5 @@
-if exists('b:did_ftplugin') | finish | endif
-let b:did_ftplugin = 1
+if exists('b:did_indent') | finish | endif
+let b:did_indent = 1
 
 setlocal foldmethod=expr
 setlocal foldexpr=ErlModeErlangFold(v:lnum)
