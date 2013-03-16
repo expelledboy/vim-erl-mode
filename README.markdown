@@ -1,5 +1,5 @@
-erl-mode.vim
-============
+▁ ▂ ▄ ▅ ▆ ▇  ERLMODE ▇ ▆ ▅ ▄ ▂ ▁
+=================================
 
 I dont know much about emacs, or erlang-mode, but this is an attempt to
 reproduce the environment.
