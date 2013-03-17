@@ -1,6 +1,12 @@
 if exists('b:did_ftplugin') | finish | endif
 let b:did_ftplugin = 1
 
+if exists('s:did_function_definitions')
+    finish
+endif
+
+let s:did_function_definitions = 1
+
 " ctag file
 
 execute 'set tags+=./'.g:erlmode_tags_file.';'.$HOME
