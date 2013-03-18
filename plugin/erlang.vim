@@ -66,7 +66,7 @@ function! s:ErlangShellArgs()
                 echomsg 'Not a config file' | return
             endif
         endif
-    else
+    endif
 
     return sname . config
 endfunction
