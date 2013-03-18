@@ -72,7 +72,11 @@ function! s:ErlangShellArgs()
 endfunction
 
 function! ErlMode_ConfigFileCompletionList(A,L,P)
-    return split(globpath(".", "**/*.config"), "\n")
+    let configs = []
+    for fname in split(globpath(".", "*.config"), "\n")
+        add(configs, fnamemodify(fname, ':t'))
+    endif
+    return configs
 endfunction
 
 function! s:OpenErlangShell()
