@@ -57,7 +57,7 @@ function! s:ErlangShellArgs()
             let config = ' -config ' . confs[0]
         else
             let dconfig = "system.config"
-            let ccomp = "customlist,s:ConfigFileCompletionList" " file
+            let ccomp = "customlist,_ErlModConfigFileCompletionList" " file
             if index(confs, dconfig) == -1 | let dconfig = "" | endif
             let selection = input("Please select config: ", dconfig,ccomp)
             if fnamemodify(selection, ":e") == 'config' && filereadable(selection)
@@ -66,12 +66,12 @@ function! s:ErlangShellArgs()
                 echomsg 'Not a config file' | return
             endif
         endif
-    else
+    endif
 
     return sname . config
 endfunction
 
-function! s:ConfigFileCompletionList(A,L,P)
+function! _ErlModConfigFileCompletionList(A,L,P)
     return split(globpath(".", "**/*.config"), "\n")
 endfunction
 
