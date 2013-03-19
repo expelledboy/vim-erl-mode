@@ -58,7 +58,7 @@ function! s:ErlangShellArgs()
         else
             let dconfig = "system.config"
             if index(confs, dconfig) == -1 | let dconfig = "" | endif
-            let ccomp = "customlist,file" " TODO see #1
+            let ccomp = "file" " TODO see #1
             let selection = input("Please select config: ", dconfig, ccomp)
             if fnamemodify(selection, ":e") == 'config' && filereadable(selection)
                 let config = ' -config ' . selection
