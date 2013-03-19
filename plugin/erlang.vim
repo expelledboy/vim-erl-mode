@@ -74,8 +74,8 @@ endfunction
 function! ErlMode_ConfigFileCompletionList(A,L,P)
     let configs = []
     for fname in split(globpath(".", "*.config"), "\n")
-        add(configs, fnamemodify(fname, ':t'))
-    endif
+        call add(configs, fnamemodify(fname, ':t'))
+    endfor
     return configs
 endfunction
 
@@ -89,7 +89,7 @@ function! s:OpenErlangShell()
         endif
     else
         let cmd = 'erl -newshell' . s:ErlangShellArgs()
-        let g:erlmode_shell = conque_term#open(cmd, ['vsplit']) " belowright vsplit
+        let g:erlmode_shell = conque_term#open(cmd, ['belowright vsplit']) " belowright vsplit
     endif
 endfunction
 
