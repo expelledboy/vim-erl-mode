@@ -57,9 +57,9 @@ function! s:ErlangShellArgs()
             let config = ' -config ' . confs[0]
         else
             let dconfig = "system.config"
-            let ccomp = "customlist,ErlMode_ConfigFileCompletionList" " file
             if index(confs, dconfig) == -1 | let dconfig = "" | endif
-            let selection = input("Please select config: ", dconfig,ccomp)
+            let ccomp = "customlist,file" " TODO see #1
+            let selection = input("Please select config: ", dconfig, ccomp)
             if fnamemodify(selection, ":e") == 'config' && filereadable(selection)
                 let config = ' -config ' . selection
             else
@@ -71,6 +71,7 @@ function! s:ErlangShellArgs()
     return sname . config
 endfunction
 
+" TODO #1 tab completion
 function! ErlMode_ConfigFileCompletionList(A,L,P)
     let configs = []
     for fname in split(globpath(".", "*.config"), "\n")
@@ -100,8 +101,7 @@ function s:CompileFileInErlangShell()
     let fn = expand("%:p")
     let dir = expand("%:h")
     " TODO: do includes properly
-    " TODO: change type of string to ''
-    let cmd = "c(\"". fn ."\", [{outdir,\"" . dir . "\"}, {i,os:getenv(\"HOME\")++\"/svn/modules/\"}, debug_info, null])."
+    let cmd = 'c("'. fn .'", [{outdir,"' . dir . '"}, {i,os:getenv("HOME")++"/svn/modules/"}, debug_info, null]).'
     call g:erlmode_shell.writeln(cmd)
     call g:erlmode_shell.focus()
 endfunction
