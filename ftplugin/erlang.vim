@@ -1,12 +1,6 @@
 if exists('b:did_ftplugin') | finish | endif
 let b:did_ftplugin = 1
 
-if exists('s:did_function_definitions')
-    finish
-endif
-
-let s:did_function_definitions = 1
-
 " ctag file
 
 execute 'set tags+=./'.g:erlmode_tags_file.';'.$HOME
@@ -29,6 +23,12 @@ setlocal commentstring=%%s
 setlocal formatoptions+=ro
 
 setlocal suffixesadd=.erl
+
+if exists('s:did_function_definitions')
+    finish
+endif
+
+let s:did_function_definitions = 1
 
 let s:erl_fun_begin = '^\(\a\w*\|[''][^'']*['']\)(.*$'
 let s:erl_fun_end   = '^[^%]*\.\s*\(%.*\)\?$'

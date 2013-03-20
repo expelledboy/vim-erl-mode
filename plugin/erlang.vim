@@ -41,7 +41,7 @@ function! s:CreateTags()
 endfunction
 
 function! s:ErlangShellArgs()
-    if !expand("%:t") == "null.erl" | return "" | endif
+    if !(expand("%:t") == "null.erl") | return "" | endif
 
     let sname = ''
     let config = ''
@@ -89,8 +89,13 @@ function! s:OpenErlangShell()
             call s:OpenErlangShell()
         endif
     else
-        let cmd = 'erl -newshell' . s:ErlangShellArgs()
-        let g:erlmode_shell = conque_term#open(cmd, ['belowright vsplit']) " belowright vsplit
+        let args = s:ErlangShellArgs()
+        if args
+            let cmd = 'erl -newshell' . args
+        else
+            let cmd = 'erl -newshell'
+        endif
+        let g:erlmode_shell = conque_term#open(cmd, ['belowright vsplit'])
     endif
 endfunction
 
@@ -104,4 +109,5 @@ function s:CompileFileInErlangShell()
     let cmd = 'c("'. fn .'", [{outdir,"' . dir . '"}, {i,os:getenv("HOME")++"/svn/modules/"}, debug_info, null]).'
     call g:erlmode_shell.writeln(cmd)
     call g:erlmode_shell.focus()
+    normal! $zt
 endfunction
