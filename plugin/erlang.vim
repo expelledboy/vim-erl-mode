@@ -99,7 +99,7 @@ function s:CompileFileInErlangShell()
     if !expand("%:e") == "erl" | echomsg "Not an erlang file" | endif
     update
     let fn = expand("%:p")
-    let dir = expand("%:h")
+    let dir = expand("%:p:h")
     " TODO: do includes properly
     let cmd = 'c("'. fn .'", [{outdir,"' . dir . '"}, {i,os:getenv("HOME")++"/svn/modules/"}, debug_info, null]).'
     call g:erlmode_shell.writeln(cmd)
