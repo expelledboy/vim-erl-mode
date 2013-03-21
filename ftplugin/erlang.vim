@@ -11,6 +11,7 @@ setlocal iskeyword+=:
 if g:erlmode_use_mappings
     nnoremap <buffer> <leader>re :ErlModeOpenShell<cr>
     nnoremap <buffer> <leader>rr :ErlModeCompileFile<cr>
+    nnoremap <buffer> <leader>rt :ErlModeRunTestSuite<cr>
 endif
 
 " folding

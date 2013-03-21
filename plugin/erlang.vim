@@ -8,6 +8,7 @@ if !exists("g:erlmode_use_mappings") | let g:erlmode_use_mappings = 1 | endif
 command! -nargs=0 ErlModeCreateTags call s:CreateTags()
 command! -nargs=0 ErlModeOpenShell call s:OpenErlangShell()
 command! -nargs=0 ErlModeCompileFile call s:CompileFileInErlangShell()
+command! -nargs=0 ErlModeRunTestSuite call s:RunTestInErlangShell()
 
 function! s:CreateTags()
     let tags = []
@@ -99,15 +100,37 @@ function! s:OpenErlangShell()
     endif
 endfunction
 
+function! s:ErlangShellOpen()
+    if exists("g:erlmode_shell") && g:erlmode_shell.active
+        return 1
+    endif
+endfunction
+
 function s:CompileFileInErlangShell()
-    if !exists("g:erlmode_shell") | echomsg "The shell is not open" | return | endif
+    if !s:ErlangShellOpen() | echomsg "The shell is not open" | return | endif
     if !expand("%:e") == "erl" | echomsg "Not an erlang file" | endif
     update
     let fn = expand("%:p")
     let dir = expand("%:p:h")
-    " TODO: do includes properly
+    " TODO: look for Emakefile for includes and output dir
     let cmd = 'c("'. fn .'", [{outdir,"' . dir . '"}, {i,os:getenv("HOME")++"/svn/modules/"}, debug_info, null]).'
     call g:erlmode_shell.writeln(cmd)
+    call g:erlmode_shell.focus()
+    normal! $zt
+endfunction
+
+function s:RunTestInErlangShell()
+    if !s:ErlangShellOpen() | echomsg "The shell is not open" | return | endif
+    if !expand("%:t") =~ '.*_SUITE\.erl$' | echomsg "Not an test suite file" | endif
+    update
+    let suite = expand("%")
+    let logdir = "/tmp/ct_tests"
+    if !isdirectory(logdir) | call mkdir(logdir, "p") | endif
+    " TODO: look for spec for includes and dirs
+    let cmd = 'ct:run_test([{suite,"'.suite.'"},{logdir,"'.logdir.'"},{include,os:getenv("HOME")++"/svn/modules/"}]).'
+    let cmd_open = 'os:cmd("open '.logdir.'/index.html").'
+    call g:erlmode_shell.writeln(cmd)
+    call g:erlmode_shell.writeln(cmd_open)
     call g:erlmode_shell.focus()
     normal! $zt
 endfunction
