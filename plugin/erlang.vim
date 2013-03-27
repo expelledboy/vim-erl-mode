@@ -52,7 +52,9 @@ function! s:ErlangShellArgs()
         let sname = ' -sname ' . readfile("nodename")[0]
     endif
 
-    let confs = split(globpath(".", "**/*.config"), "\n")
+    let confs = split(globpath(expand("%:p:h"), "**/*.config"), "\n")
+    call map(confs, 'fnamemodify(v:val, ":t")')
+
     if len(confs) > 0
         if len(confs) == 1
             let config = ' -config ' . confs[0]
@@ -91,7 +93,7 @@ function! s:OpenErlangShell()
         endif
     else
         let args = s:ErlangShellArgs()
-        if args
+        if strlen(args) > 3
             let cmd = 'erl -newshell' . args
         else
             let cmd = 'erl -newshell'
