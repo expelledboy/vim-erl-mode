@@ -125,7 +125,7 @@ function s:RunTestInErlangShell()
     if !s:ErlangShellOpen() | echomsg "The shell is not open" | return | endif
     if !expand("%:t") =~ '.*_SUITE\.erl$' | echomsg "Not an test suite file" | endif
     update
-    let suite = expand("%")
+    let suite = expand("%:p")
     let logdir = "/tmp/ct_tests"
     if !isdirectory(logdir) | call mkdir(logdir, "p") | endif
     " TODO: look for spec for includes and dirs
