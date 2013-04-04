@@ -14,7 +14,6 @@ function! s:CreateTags()
     let tags = []
     " TODO add support for project root
     for fname in split(globpath(".", "**/*.erl"), "\n")
-        echomsg "Scanning" fname
         let fname = fnamemodify(fname, ':p')
         let lines = readfile(fname)
         " find the module name
