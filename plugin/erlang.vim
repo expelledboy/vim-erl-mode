@@ -9,6 +9,7 @@ command! -nargs=0 ErlModeCreateTags call s:CreateTags()
 command! -nargs=0 ErlModeOpenShell call s:OpenErlangShell()
 command! -nargs=0 ErlModeCompileFile call s:CompileFileInErlangShell()
 command! -nargs=0 ErlModeRunTestSuite call s:RunTestInErlangShell()
+command! -nargs=0 ErlModeExecLine call s:RunLineInErlangShell()
 
 function! s:CreateTags()
     let tags = []
@@ -120,14 +121,22 @@ function s:CompileFileInErlangShell()
     normal! $zt
 endfunction
 
+function s:RunLineInErlangShell()
+    if !s:ErlangShellOpen() | echomsg "The shell is not open" | return | endif
+    if !expand("%:e") == "erl" | echomsg "Not an erlang file" | endif
+    call g:erlmode_shell.writeln(getline("."))
+    call g:erlmode_shell.focus()
+endfunction
+
 function s:RunTestInErlangShell()
+    " TODO option of using testhelper
     if !s:ErlangShellOpen() | echomsg "The shell is not open" | return | endif
     if !expand("%:t") =~ '.*_SUITE\.erl$' | echomsg "Not an test suite file" | endif
     update
     let suite = expand("%:p")
     let logdir = "/tmp/ct_tests"
     if !isdirectory(logdir) | call mkdir(logdir, "p") | endif
-    " TODO: look for spec for includes and dirs
+    " TODO look for spec for includes and dirs
     let cmd = 'ct:run_test([{suite,"'.suite.'"},{logdir,"'.logdir.'"},{include,os:getenv("HOME")++"/svn/modules/"}]).'
     let cmd_open = 'os:cmd("open '.logdir.'/index.html").'
     call g:erlmode_shell.writeln(cmd)
