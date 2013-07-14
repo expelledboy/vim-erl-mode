@@ -17,6 +17,18 @@ paste:
     rm conque_2.3.tar.gz
     git clone git://github.com/expelledboy/vim-erl-mode.git
 
+Plans
+-----
+I wish to eventually have a complete erlang development environment, using vim
+as the core component.
+
+TODO:
+    Complete script to create vim compatible tags
+    Add ultisnip snippets
+    Add rebar file templates
+    Add generic Makefile for erlang projects
+    Possible move away from ConqueShell (slime?)
+
 License
 -------
 

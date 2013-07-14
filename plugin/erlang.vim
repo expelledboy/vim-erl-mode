@@ -113,6 +113,7 @@ function s:CompileFileInErlangShell()
     if !expand("%:e") == "erl" | echomsg "Not an erlang file" | endif
     update
     let fn = expand("%:p")
+    " TODO check for ebin dir
     let dir = expand("%:p:h")
     " TODO: look for Emakefile for includes and output dir
     let cmd = 'c("'. fn .'", [{outdir,"' . dir . '"}, {i,os:getenv("HOME")++"/svn/modules/"}, debug_info, null]).'
@@ -122,9 +123,11 @@ function s:CompileFileInErlangShell()
 endfunction
 
 function s:RunLineInErlangShell()
+    " TODO add support for multiline selection
     if !s:ErlangShellOpen() | echomsg "The shell is not open" | return | endif
     if !expand("%:e") == "erl" | echomsg "Not an erlang file" | endif
-    call g:erlmode_shell.writeln(getline("."))
+    let line = substitute(getline("."), '^\s\+', "", "")
+    call g:erlmode_shell.writeln(substitute(line, ",$", ".", ""))
     call g:erlmode_shell.focus()
 endfunction
 
