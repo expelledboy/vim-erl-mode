@@ -23,6 +23,7 @@ I wish to eventually have a complete erlang development environment, using vim
 as the core component.
 
 TODO:
+
     Complete script to create vim compatible tags
     Add ultisnip snippets
     Add rebar file templates
